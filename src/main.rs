@@ -2,11 +2,10 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    
-    let path = "assets/example_lists.txt";
+    let path = "assets/lists.txt";
     let mut safe = 0;
 
-    let file = File::open(path);
+    let file = File::open(path)?;
     let reader = io::BufReader::new(file);
 
     let mut matrix: Vec<Vec<i32>> = Vec::new();
@@ -19,7 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
 
-        matrix.push(row); // Aggiunge la riga alla matrice
+        matrix.push(row);
     }
 
     for row in &matrix {
@@ -33,7 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let diff_sum: i32 = diff.windows(2)
             .map(|pair| pair[0] + pair[1])
-            .sum::<i32>(); // Specifica il tipo di ritorno come i32
+            .sum::<i32>();
 
         if abs_diff_sum == diff_sum {
             let correct2 = diff.iter().all(|&num| num.abs() <= 3);
@@ -42,9 +41,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 safe += 1;
             }
         }
-
-        println!("{:?}", diff);
     }
-    println!("{:?}", safe);
-    OK(())
+
+    println!("Part1: {}", safe);
+    Ok(())
 }
