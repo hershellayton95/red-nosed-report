@@ -1,3 +1,3 @@
 | Command | Mean [µs] | Min [µs] | Max [µs] | Relative |
 |:---|---:|---:|---:|---:|
-| `./target/release/red-nosed-report` | 794.4 ± 110.1 | 497.2 | 2009.7 | 1.00 |
+| `./target/release/red-nosed-report` | 786.4 ± 140.9 | 518.8 | 2120.6 | 1.00 |

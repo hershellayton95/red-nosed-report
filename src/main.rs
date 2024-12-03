@@ -22,22 +22,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     for row in &matrix {
-        let diff: Vec<i32> = row.windows(2)
-            .map(|pair| pair[0] - pair[1])
-            .collect();
+        let mut is_safe = true;
+        let mut prev = row[0];
 
-        let abs_diff_sum: i32 = diff.windows(2)
-            .map(|pair| pair[0].abs() + pair[1].abs())
-            .sum();
+        for &level in &row[1..] {
+            let diff = (prev - level).abs();
+            if diff < 1 || diff > 3 {
+                is_safe = false;
+                break;
+            }
+            prev = level;
+        }
 
-        let diff_sum: i32 = diff.windows(2)
-            .map(|pair| pair[0] + pair[1])
-            .sum::<i32>();
+        if is_safe {
+            let is_increasing = row.windows(2).all(|pair| pair[0] < pair[1]);
+            let is_decreasing = row.windows(2).all(|pair| pair[0] > pair[1]);
 
-        if abs_diff_sum == diff_sum {
-            let correct2 = diff.iter().all(|&num| num.abs() <= 3);
-
-            if correct2 {
+            if is_increasing || is_decreasing {
                 safe += 1;
             }
         }
